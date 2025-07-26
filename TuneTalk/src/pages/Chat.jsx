@@ -1,3 +1,5 @@
+
+// src/pages/Chat.jsx
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import './Chat.css';
@@ -9,25 +11,17 @@ export default function Chat() {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
   const [isPrivate, setIsPrivate] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState('');
 
   const sendMessage = () => {
-    if (!message.trim()) return;
-
-    const msgData = {
-      message, 
-      username,
-      time: new Date().toLocaleTimeString(),
-      type: isPrivate ? 'private' : 'public',
-    };
-
-    if (isPrivate && selectedUser) {
-      msgData.to = selectedUser;
+    if (message.trim() && username.trim()) {
+      socket.emit('send_message', {
+        message,
+        username,
+        time: new Date().toLocaleTimeString(),
+        type: isPrivate ? 'private' : 'public',
+      });
+      setMessage('');
     }
-
-    socket.emit('send_message', msgData);
-    setMessage('');
   };
 
   useEffect(() => {
@@ -35,23 +29,8 @@ export default function Chat() {
       setChat((prev) => [...prev, data]);
     });
 
-    socket.on('user_list', (list) => {
-      setUsers(list);
-    });
-
-    return () => {
-      socket.off('receive_message');
-      socket.off('user_list');
-    };
+    return () => socket.off('receive_message');
   }, []);
-
-  const handleJoin = (e) => {
-    if (e.key === 'Enter' && e.target.value.trim()) {
-      const name = e.target.value.trim();
-      setUsername(name);
-      socket.emit('set_username', name);
-    }
-  };
 
   if (!username) {
     return (
@@ -60,7 +39,9 @@ export default function Chat() {
         <input
           type="text"
           placeholder="Your name"
-          onKeyDown={handleJoin}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') setUsername(e.target.value);
+          }}
           className="chat-input"
         />
       </div>
@@ -86,28 +67,9 @@ export default function Chat() {
         </button>
       </div>
 
-      {isPrivate && (
-        <select
-          value={selectedUser}
-          onChange={(e) => setSelectedUser(e.target.value)}
-          className="user-select"
-        >
-          <option value="">Select a user</option>
-          {users
-            .filter((user) => user.username !== username)
-            .map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.username}
-              </option>
-            ))}
-        </select>
-      )}
-
       <div className="chat-box">
         {chat
-          .filter((msg) =>
-            isPrivate ? msg.type === 'private' : msg.type === 'public'
-          )
+          .filter((msg) => (isPrivate ? msg.type === 'private' : msg.type === 'public'))
           .map((msg, idx) => (
             <div key={idx} className="chat-message">
               <span className="chat-time">{msg.time}</span>
@@ -121,14 +83,15 @@ export default function Chat() {
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') sendMessage();
+          }}
           className="chat-input"
           placeholder={`Type a ${isPrivate ? 'private' : 'public'} message...`}
         />
-        <button onClick={sendMessage} className="chat-send-btn">
-          Send
-        </button>
+        <button onClick={sendMessage} className="chat-send-btn">Send</button>
       </div>
     </div>
   );
 }
+
