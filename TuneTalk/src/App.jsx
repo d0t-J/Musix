@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Home, About, Contact, Chat } from "./pages";
+import { Home, About, Contact, Chat, Auth } from "./pages";
 import Navbar from "./components/Navbar";
 
 export default function App() {
@@ -11,6 +11,7 @@ export default function App() {
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/auth" element={<Auth />} />
             </Routes>
         </Router>
     );

@@ -50,7 +50,7 @@ export default function Navbar() {
         { label: "Home", path: "/" },
         { label: "About", path: "/about" },
         { label: "Chat", path: "/chat" },
-        { label: "Contact", path: "/contact" },
+        { label: "Sign In", path: "/auth" },
     ];
 
     return (
