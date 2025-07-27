@@ -118,13 +118,46 @@
   padding: 10px 16px;
   border: none;
   border-radius: 6px;
-    margin-top: 10px;
+  margin-top: 10px;
   margin-bottom: 20px;
-
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.2s ease;
 }
+
+.spotify-search {
+  margin-top: 16px;
+}
+
+.spotify-results {
+  margin-top: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  background: #333;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.spotify-result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #444;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  color: white;
+}
+
+.spotify-result button {
+  background-color: #5ddcdc;
+  border: none;
+  color: black;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 
 .chat-send-btn:hover {
   background-color: #4cc1c1;
