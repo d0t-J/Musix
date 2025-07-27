@@ -54,7 +54,7 @@
   margin-left: auto;
   text-align: right;
   border-top-right-radius: 0;
-  align-self: flex-end; /* ✅ NEW: ensures alignment right */
+  align-self: flex-end; 
 }
 
 /* Others’ messages – aligned left */
@@ -165,9 +165,8 @@
   font-size: 14px;
 }
 
-/* Optional: for Webkit to make the dropdown arrow look minimal */
 .user-select::-ms-expand {
-  display: none; /* for IE */
+  display: none; 
 }
 
 

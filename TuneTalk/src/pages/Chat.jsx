@@ -1,5 +1,7 @@
+
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import axios from 'axios';
 import './Chat.css';
 
 const socket = io('http://localhost:3001');
@@ -11,6 +13,8 @@ export default function Chat() {
   const [isPrivate, setIsPrivate] = useState(false);
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   const sendMessage = () => {
     if (!message.trim()) return;
@@ -30,7 +34,38 @@ export default function Chat() {
     setMessage('');
   };
 
-  // Receive messages and user list
+  const sendSpotifySong = (track) => {
+    const embedHTML = `<iframe style="border-radius:12px" src="${track.url}" width="100%" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+
+    const msgData = {
+      html: embedHTML,
+      username,
+      time: new Date().toLocaleTimeString(),
+      type: isPrivate ? 'private' : 'public',
+    };
+
+    if (isPrivate && selectedUser) {
+      msgData.to = selectedUser;
+    }
+
+    socket.emit('send_message', msgData);
+    setSearchQuery('');
+    setSearchResults([]);
+  };
+
+  const handleSpotifySearch = async () => {
+    if (!searchQuery.trim()) return;
+
+    try {
+      const res = await axios.get('http://localhost:3001/search', {
+        params: { q: searchQuery },
+      });
+      setSearchResults(res.data);
+    } catch (err) {
+      console.error('Spotify search error:', err);
+    }
+  };
+
   useEffect(() => {
     socket.on('receive_message', (data) => {
       setChat((prev) => [...prev, data]);
@@ -46,12 +81,9 @@ export default function Chat() {
     };
   }, []);
 
-  // Auto-scroll to latest message
   useEffect(() => {
     const chatBox = document.querySelector('.chat-box');
-    if (chatBox) {
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
+    if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
   }, [chat]);
 
   const handleJoin = (e) => {
@@ -125,7 +157,15 @@ export default function Chat() {
               }`}
             >
               <span className="chat-time">{msg.time}</span>
-              <strong>{msg.username}:</strong> {msg.message}
+              <strong>{msg.username}:</strong>
+              {msg.html ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: msg.html }}
+                  style={{ marginTop: 4 }}
+                />
+              ) : (
+                <span> {msg.message}</span>
+              )}
             </div>
           ))}
       </div>
@@ -143,6 +183,56 @@ export default function Chat() {
           Send
         </button>
       </div>
+
+      <div style={{ marginTop: 20 }}>
+        <h4 style={{ color: '#cb075b' }}>Search Spotify:</h4>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <input
+            type="text"
+            placeholder="Search for a song..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="chat-input"
+          />
+          <button onClick={handleSpotifySearch} className="chat-send-btn">
+            Search
+          </button>
+        </div>
+
+        {searchResults.length > 0 && (
+          <div style={{ marginTop: 15 }}>
+            {searchResults.map((track) => (
+              <div
+                key={track.id}
+                style={{
+                  border: '1px solid #ddd',
+                  padding: 10,
+                  marginBottom: 10,
+                  borderRadius: 6,
+                  background: '#fff',
+                }}
+              >
+                <strong>{track.name}</strong> by {track.artist}
+                <button
+                  onClick={() => sendSpotifySong(track)}
+                  style={{
+                    float: 'right',
+                    padding: '4px 10px',
+                    background: '#1DB954',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: 4,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Send
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+
