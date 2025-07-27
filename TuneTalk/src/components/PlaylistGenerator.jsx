@@ -1,13 +1,9 @@
-// playlist generator
-
 import React, { useState } from "react";
 import axios from "axios";
-// import config from "../config/environment";
 import "./PlaylistGenerator.css";
 
-// EMERGENCY HARDCODE - Replace with your actual backend URL
 const BACKEND_URL =
-    "https://tunetalk-backend-e9d9gzf6a9awdadq.eastus-01.azurewebsites.net/";
+    "https://tunetalk-backend-e9d9gzf6a9awdadq.eastus-01.azurewebsites.net";
 
 const allowedGenres = [
     "pop",

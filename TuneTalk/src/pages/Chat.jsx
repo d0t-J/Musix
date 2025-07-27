@@ -1,25 +1,11 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-// import config from "../config/environment";
 import "./Chat.css";
 
-// EMERGENCY HARDCODE - Replace with your actual backend URL
-const BACKEND_URL = "https://tunetalk-backend-e9d9gzf6a9awdadq.eastus-01.azurewebsites.net";
+const BACKEND_URL =
+    "https://tunetalk-backend-e9d9gzf6a9awdadq.eastus-01.azurewebsites.net";
 const socket = io(BACKEND_URL);
-
-const handleSpotifySearch = async () => {
-    if (!searchQuery.trim()) return;
-
-    try {
-        const res = await axios.get(`${config.API_URL}/search`, {
-            params: { q: searchQuery },
-        });
-        setSearchResults(res.data);
-    } catch (err) {
-        console.error("Spotify search error:", err);
-    }
-};
 
 export default function Chat() {
     const [username, setUsername] = useState("");
@@ -30,6 +16,31 @@ export default function Chat() {
     const [selectedUser, setSelectedUser] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+    const [connectionStatus, setConnectionStatus] = useState("Connecting...");
+
+    // Connection status monitoring
+    useEffect(() => {
+        socket.on("connect", () => {
+            console.log("✅ Socket connected to:", BACKEND_URL);
+            setConnectionStatus("Connected ✅");
+        });
+
+        socket.on("disconnect", () => {
+            console.log("⚠️ Socket disconnected");
+            setConnectionStatus("Disconnected ⚠️");
+        });
+
+        socket.on("connect_error", (error) => {
+            console.error("❌ Socket connection error:", error);
+            setConnectionStatus("Connection Error ❌");
+        });
+
+        return () => {
+            socket.off("connect");
+            socket.off("disconnect");
+            socket.off("connect_error");
+        };
+    }, []);
 
     const sendMessage = () => {
         if (!message.trim()) return;
@@ -45,6 +56,7 @@ export default function Chat() {
             msgData.to = selectedUser;
         }
 
+        console.log("📤 Sending message:", msgData);
         socket.emit("send_message", msgData);
         setMessage("");
     };
@@ -72,12 +84,20 @@ export default function Chat() {
         if (!searchQuery.trim()) return;
 
         try {
+            console.log("🔍 Searching Spotify for:", searchQuery);
             const res = await axios.get(`${BACKEND_URL}/search`, {
                 params: { q: searchQuery },
             });
+            console.log("✅ Spotify search results:", res.data);
             setSearchResults(res.data);
         } catch (err) {
-            console.error("Spotify search error:", err);
+            console.error("❌ Spotify search error:", err);
+            console.error("Error details:", err.response?.data || err.message);
+            alert(
+                `Spotify search failed: ${
+                    err.response?.data?.error || err.message
+                }`
+            );
         }
     };
 
@@ -127,6 +147,25 @@ export default function Chat() {
         <div className="chat-container">
             <h2>Welcome, {username} !</h2>
             <h3 className="subheading">Chat and share music with friends 🎧</h3>
+
+            {/* Connection Status */}
+            <div
+                style={{
+                    padding: "8px",
+                    margin: "10px 0",
+                    background: connectionStatus.includes("✅")
+                        ? "#d4edda"
+                        : "#f8d7da",
+                    border: `1px solid ${
+                        connectionStatus.includes("✅") ? "#c3e6cb" : "#f5c6cb"
+                    }`,
+                    borderRadius: "4px",
+                    fontSize: "14px",
+                }}
+            >
+                <strong>Connection:</strong> {connectionStatus} |{" "}
+                <strong>Backend:</strong> {BACKEND_URL}
+            </div>
 
             <div className="chat-toggle">
                 <button
