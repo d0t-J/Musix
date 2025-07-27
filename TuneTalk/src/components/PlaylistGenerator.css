@@ -40,3 +40,17 @@
   padding: 6px 0;
   border-bottom: 1px solid #eee;
 }
+
+/* error messages */
+
+.input-error {
+  border: 2px solid #e74c3c;
+  background-color: #fdecea;
+}
+
+.error-message {
+  color: #e74c3c;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}

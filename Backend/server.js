@@ -4,7 +4,7 @@ const http = require('http');
 const cors = require('cors');
 const axios = require('axios');
 const { Server } = require('socket.io');
-// const playlistRoutes = require('./routes/playlist');          //playlistgenerator
+const playlistRoutes = require('./routes/playlist');          //playlistgenerator
 
 
 
@@ -125,7 +125,7 @@ app.get('/search', async (req, res) => {
 
 
 // ROUTES 
-// app.use('/api/playlist', playlistRoutes);                   //playlistgenerator
+app.use('/api/playlist', playlistRoutes);                   //playlistgenerator
 
 /* ---------- START SERVER ---------- */
 server.listen(PORT, () => {
