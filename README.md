@@ -2,7 +2,7 @@
 
 TuneTalk is a social platform built for music lovers. Unlike typical music apps, TuneTalk lets you share songs instantly, chat about them in real-time, and even post your own recordings—all in one place.
 
-![Alt Text](https://github.com/MariamSawera/Musix/TuneTalk/TuneTalk/main/src/assets/Screenshot(364).png?raw=true)
+![Alt Text](https://github.com/MariamSawera/Musix/TuneTalk/src/assets/Screenshot(364).png?raw=true)
 
 ---
 
