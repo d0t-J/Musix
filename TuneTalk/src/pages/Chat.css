@@ -1,128 +1,75 @@
 
-
- /* General Layout */
- .chat-container {
+.chat-container {
   max-width: 600px;
   margin: 40px auto;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #242424;
+  color: #ffffff;
   padding: 20px;
-  font-family: 'Segoe UI', sans-serif;
-  
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Headings */
-.chat-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-} 
-
-/* Chat Toggle Buttons */
 .chat-toggle {
   display: flex;
-  justify-content: center;
-  margin-bottom: 15px;
   gap: 10px;
+  margin-bottom: 16px;
 }
 
-
-
-
 .chat-toggle button {
-  padding: 8px 16px;
+  flex: 1;
+  padding: 8px;
   border: none;
-  border-radius: 6px;
+  background-color: #444;
+  color: white;
   cursor: pointer;
-  background-color: #f0f0f0;
-  font-weight: bold;
-  color: #555;
-  transition: background-color 0.2s ease;
+  border-radius: 4px;
 }
 
 .chat-toggle .active-tab {
-  background-color: #cb075b;
-  color: #fff;
+  background-color: #5ddcdc;
+  color: black;
 }
 
-/* Select Dropdown */
-.user-select {
-  display: block;
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
-  font-size: 15px;
-}
-
-/* Chat Messages Box */
 .chat-box {
-  height: 300px;
+  height: 250px;
   overflow-y: auto;
-  background-color: #fafafa;
-  border: 1px solid #eee;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 15px;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
 }
 
-/* Individual Message */
 .chat-message {
-  margin-bottom: 10px;
-  padding: 6px 8px;
-  background-color: #f5f5f5;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-.chat-message strong {
-  color: #cb075b;
+  margin-bottom: 6px;
 }
 
 .chat-time {
-  font-size: 12px;
-  color: #888;
-  margin-right: 8px;
+  font-size: 0.8em;
+  color: gray;
+  margin-right: 6px;
 }
 
-/* Message Input Form */
 .chat-form {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
-
 
 .chat-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 1rem;
-  border: 2px solid #cb075b;
-  border-radius: 6px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-  outline: none;
-  transition: border-color 0.3s;
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
-
-.chat-input:focus {
-  border-color: #5ddcdc;
-}
-
 
 .chat-send-btn {
   background-color: #5ddcdc;
-  color: #000;
-  padding: 10px 16px;
   border: none;
   border-radius: 6px;
   margin-top: 10px;
   margin-bottom: 20px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
 }
 
 .spotify-search {

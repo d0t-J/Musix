@@ -148,8 +148,6 @@ export default function Chat() {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
   const [isPrivate, setIsPrivate] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState('');
 
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -204,14 +202,6 @@ export default function Chat() {
     };
   }, []);
 
-  const handleJoin = (e) => {
-    if (e.key === 'Enter' && e.target.value.trim()) {
-      const name = e.target.value.trim();
-      setUsername(name);
-      socket.emit('set_username', name);
-    }
-  };
-
   if (!username) {
     return (
       <div className="chat-container">
@@ -219,7 +209,9 @@ export default function Chat() {
         <input
           type="text"
           placeholder="Your name"
-          onKeyDown={handleJoin}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') setUsername(e.target.value);
+          }}
           className="chat-input"
         />
       </div>
@@ -304,7 +296,9 @@ export default function Chat() {
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') sendMessage();
+          }}
           className="chat-input"
           placeholder={`Type a ${isPrivate ? 'private' : 'public'} message...`}
         />
@@ -313,3 +307,4 @@ export default function Chat() {
     </div>
   );
 }
+
