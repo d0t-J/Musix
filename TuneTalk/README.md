@@ -100,7 +100,7 @@ npm start dev
 
 1. <a href="https://github.com/MariamSawera">MariamSawera</a>
 
-2. [<a href="https://github.com/d0t-J">d0t-J</a>]
+2. <a href="https://github.com/d0t-J">d0t-J</a>
 
-3. [<a href="https://github.com/Fakeurs">Fakeurs</a>]
+3. <a href="https://github.com/Fakeurs">Fakeurs</a>
 
