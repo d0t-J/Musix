@@ -35,6 +35,8 @@ Making music sharing seamless in real-time chat while keeping performance smooth
 
 Coordinating tasks, merging code, and managing workflow under hackathon time constraints.
 
+---
+
 ## 🏆 Accomplishments
 
 Built a functional, interactive app in a short time.
@@ -54,6 +56,8 @@ API authentication & integration
 Git workflow: managing branches, pull requests, and merges under pressure
 
 Balancing feature scope vs. time limitations
+
+---
 
 ### 🔮 What's Next
 
@@ -90,10 +94,11 @@ npm install
 npm start dev
 ```
 
-👥 Contributors
-[<a href="https://github.com/MariamSawera">MariamSawera</a>]
+👥 Contributors:
 
-[<a href="https://github.com/d0t-J">d0t-J</a>]
+1. <a href="https://github.com/MariamSawera">MariamSawera</a>
 
-[<a href="https://github.com/Fakeurs">Fakeurs</a>]
+2. [<a href="https://github.com/d0t-J">d0t-J</a>]
+
+3. [<a href="https://github.com/Fakeurs">Fakeurs</a>]
 
