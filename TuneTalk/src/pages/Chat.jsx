@@ -110,7 +110,9 @@ export default function Chat() {
 
   return (
     <div className="chat-container">
-      <h2>Welcome, {username} 👋</h2>
+      <h2>Welcome, {username} !</h2>
+      <h3 class="subheading">Chat and share music with friends 🎧</h3>
+
 
       <div className="chat-toggle">
         <button

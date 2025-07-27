@@ -1,3 +1,12 @@
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #f1f1f1;
+}
+
+
 .chat-toggle {
   display: flex;
   gap: 10px;
@@ -44,6 +53,22 @@
   margin-bottom: 24px;
   color: #cb075b;
   font-size: 28px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+
+}
+
+.subheading{
+  font-size: 1.5rem;           
+  font-weight: 600;            
+  color: #cb075b;              
+  margin-top: 20px;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+
+
+
+
 }
 
 .chat-box {
@@ -107,10 +132,12 @@
   font-size: 1rem;
   border: 2px solid #cb075b;
   background-color: white;
+  color: #333;
   border-radius: 10px;
   box-sizing: border-box;
   outline: none;
   transition: border-color 0.3s, box-shadow 0.3s;
+  
 }
 
 .chat-input:focus {
