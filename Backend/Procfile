@@ -1,0 +1,2 @@
+# Railway configuration for Node.js backend
+web: node server.js

@@ -1,0 +1,18 @@
+name: musixj
+metadata:
+    template: musixj@0.0.1-beta
+infra:
+    provider: bicep
+    path: infra
+services:
+    backend:
+        project: Backend
+        host: containerapp
+        language: js
+        docker:
+            path: Dockerfile
+            context: ./
+    frontend:
+        project: TuneTalk
+        host: staticwebapp
+        language: js
