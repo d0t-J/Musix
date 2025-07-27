@@ -1,73 +1,99 @@
-// backend/routes/playlist.js
-const express = require('express');
-const axios = require('axios');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const express = require("express");
+const axios = require("axios");
+
 const router = express.Router();
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// Allowed genres whitelist
+const allowedGenres = [
+  'pop', 'rock', 'hip-hop', 'classical', 'jazz', 'electronic',
+  'blues', 'country', 'reggae', 'metal', 'dance', 'indie',
+  'soul', 'punk', 'r&b', 'k-pop', 'folk', 'funk', 'techno', 'edm'
+];
 
-// Utility to extract genres from Gemini response
-function extractGenres(text) {
-  return text
-    .toLowerCase()
-    .match(/([a-z-]+)/g)
-    ?.filter((genre, index, arr) => arr.indexOf(genre) === index) // remove duplicates
-    .slice(0, 3); // use max 3 genres for Spotify API
+// Token cache variables
+let accessToken = '';
+let tokenExpiresAt = 0;
+
+async function getAccessToken() {
+  const now = Date.now();
+  if (accessToken && now < tokenExpiresAt) return accessToken;
+
+  const response = await axios.post(
+    'https://accounts.spotify.com/api/token',
+    'grant_type=client_credentials',
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization:
+          'Basic ' +
+          Buffer.from(
+            `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
+          ).toString('base64'),
+      },
+    }
+  );
+
+  accessToken = response.data.access_token;
+  tokenExpiresAt = now + response.data.expires_in * 1000;
+  return accessToken;
 }
 
-// Main route
-router.post('/generate', async (req, res) => {
-  const { mood } = req.body;
-  if (!mood) return res.status(400).json({ error: 'Mood is required' });
-
+// GET /api/playlist/generate?genres=pop,jazz
+router.get('/generate', async (req, res) => {
   try {
-    // 🔮 Step 1: Use Gemini to get genres
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.0-pro' });
-    const result = await model.generateContent(`Suggest music genres based on this mood: "${mood}". Keep it short.`);
-    const genresText = await result.response.text();
-    const genres = extractGenres(genresText);
-
-    if (!genres || genres.length === 0) {
-      return res.status(400).json({ error: 'Could not determine genres from input.' });
+    const rawGenres = req.query.genres;
+    if (!rawGenres) {
+      return res.status(400).json({ error: "Missing 'genres' query parameter." });
     }
 
-    console.log('🎵 Genres:', genres);
+    const genres = rawGenres
+      .split(',')
+      .map(g => g.trim().toLowerCase())
+      .filter(g => allowedGenres.includes(g));
 
-    // 🎧 Step 2: Get Spotify Access Token
-    const spotifyAuth = await axios.post('https://accounts.spotify.com/api/token', null, {
-      params: { grant_type: 'client_credentials' },
-      headers: {
-        'Authorization': `Basic ${Buffer.from(
-          process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
-        ).toString('base64')}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
+    if (genres.length === 0) {
+      return res.status(400).json({
+        error: `No valid genres provided. Allowed genres: ${allowedGenres.join(', ')}`
+      });
+    }
 
-    const token = spotifyAuth.data.access_token;
+    console.log("✅ Filtered genres:", genres);
 
-    // 🎶 Step 3: Get tracks using Spotify recommendations
-    const response = await axios.get('https://api.spotify.com/v1/recommendations', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const token = await getAccessToken();
+
+    // Create a query string joining genres with OR for search
+    const query = genres.map(g => `"${g}"`).join(' OR ');
+
+    const response = await axios.get('https://api.spotify.com/v1/search', {
+      headers: { Authorization: `Bearer ${token}` },
       params: {
-        seed_genres: genres.join(','),
+        q: query,
+        type: 'track',
         limit: 10,
       },
     });
 
-    const tracks = response.data.tracks.map(track => ({
+    const tracks = response.data.tracks.items.map(track => ({
+      id: track.id,
       name: track.name,
       artists: track.artists.map(a => a.name),
-      id: track.id,
+      url: `https://open.spotify.com/embed/track/${track.id}`,
     }));
 
-    res.json({ tracks });
+    console.log(`✅ Retrieved ${tracks.length} tracks from Spotify`);
 
-  } catch (err) {
-    console.error('Error generating playlist:', err.message || err);
-    res.status(500).json({ error: 'Something went wrong while generating playlist.' });
+    res.json(tracks);
+  } catch (error) {
+    console.error("❌ Error in /generate");
+    if (error.response) {
+      console.error("Status:", error.response.status);
+      console.error("Data:", JSON.stringify(error.response.data, null, 2));
+    } else {
+      console.error("Message:", error.message);
+    }
+    res.status(500).json({
+      error: "Something went wrong while generating playlist.",
+    });
   }
 });
 
