@@ -5,7 +5,7 @@ import axios from "axios";
 import "./Chat.css";
 
 // EMERGENCY HARDCODE - Replace with your actual backend URL
-const BACKEND_URL = "https://YOUR-ACTUAL-BACKEND-URL.azurewebsites.net";
+const BACKEND_URL = "https://tunetalk-backend-e9d9gzf6a9awdadq.eastus-01.azurewebsites.net";
 const socket = io(BACKEND_URL);
 
 const handleSpotifySearch = async () => {
