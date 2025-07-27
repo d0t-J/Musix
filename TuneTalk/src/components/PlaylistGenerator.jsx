@@ -2,8 +2,11 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import config from "../config/environment";
+// import config from "../config/environment";
 import "./PlaylistGenerator.css";
+
+// EMERGENCY HARDCODE - Replace with your actual backend URL
+const BACKEND_URL = "https://YOUR-ACTUAL-BACKEND-URL.azurewebsites.net";
 
 const allowedGenres = [
     "pop",
@@ -62,7 +65,7 @@ export default function PlaylistGenerator() {
         try {
             const genreQuery = encodeURIComponent(genres.join(","));
             const res = await axios.get(
-                `${config.API_URL}/api/playlist/generate?genres=${genreQuery}`
+                `${BACKEND_URL}/api/playlist/generate?genres=${genreQuery}`
             );
             setPlaylist(res.data || []);
             if (res.data.length === 0) {

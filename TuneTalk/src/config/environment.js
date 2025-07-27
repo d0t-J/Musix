@@ -7,10 +7,10 @@ const config = {
     production: {
         API_URL:
             import.meta.env.VITE_API_URL ||
-            "https://your-backend-app.azurewebsites.net",
+            "tunetalk-backend-e9d9gzf6a9awdadq.eastus-01.azurewebsites.net",
         SOCKET_URL:
             import.meta.env.VITE_SOCKET_URL ||
-            "https://your-backend-app.azurewebsites.net",
+            "tunetalk-backend-e9d9gzf6a9awdadq.eastus-01.azurewebsites.net",
     },
 };
 

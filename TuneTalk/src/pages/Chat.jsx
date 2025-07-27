@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-import config from "../config/environment";
+// import config from "../config/environment";
 import "./Chat.css";
 
-const socket = io(config.SOCKET_URL);
+// EMERGENCY HARDCODE - Replace with your actual backend URL
+const BACKEND_URL = "https://YOUR-ACTUAL-BACKEND-URL.azurewebsites.net";
+const socket = io(BACKEND_URL);
 
 const handleSpotifySearch = async () => {
     if (!searchQuery.trim()) return;
@@ -70,7 +72,7 @@ export default function Chat() {
         if (!searchQuery.trim()) return;
 
         try {
-            const res = await axios.get(`${config.API_URL}/search`, {
+            const res = await axios.get(`${BACKEND_URL}/search`, {
                 params: { q: searchQuery },
             });
             setSearchResults(res.data);
