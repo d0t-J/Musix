@@ -1,13 +1,4 @@
 
-.chat-container {
-  max-width: 600px;
-  margin: 40px auto;
-  background-color: #242424;
-  color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-}
 
 .chat-toggle {
   display: flex;
@@ -19,7 +10,7 @@
   flex: 1;
   padding: 8px;
   border: none;
-  background-color: #444;
+  background-color: #cb075b;
   color: white;
   cursor: pointer;
   border-radius: 4px;
@@ -30,7 +21,12 @@
   color: black;
 }
 
+
+
 .chat-box {
+  display: flex;           
+  flex-direction: column;  
+  align-items: flex-start; 
   height: 250px;
   overflow-y: auto;
   background-color: white;
@@ -42,26 +38,47 @@
 }
 
 .chat-message {
-  margin-bottom: 6px;
+  max-width: 60%;
+  padding: 10px 15px;
+  margin: 8px;
+  border-radius: 12px;
+  font-size: 14px;
+  word-wrap: break-word;
+  display: inline-block;
+}
+
+/* Your own messages – aligned right */
+.my-message {
+  background-color: #cb075b;
+  color: white;
+  margin-left: auto;
+  text-align: right;
+  border-top-right-radius: 0;
+  align-self: flex-end; /* ✅ NEW: ensures alignment right */
+}
+
+/* Others’ messages – aligned left */
+.other-message {
+  background-color: #f1f1f1;
+  color: black;
+  margin-right: auto;
+  text-align: left;
+  border-top-left-radius: 0;
 }
 
 .chat-time {
-  font-size: 0.8em;
+  display: block;
+  font-size: 11px;
   color: gray;
-  margin-right: 6px;
+  margin-bottom: 4px;
 }
+
 
 .chat-form {
   display: flex;
   gap: 8px;
 }
 
-.chat-input {
-  flex: 1;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
 
 .chat-send-btn {
   background-color: #5ddcdc;
@@ -72,43 +89,87 @@
   cursor: pointer;
 }
 
-.spotify-search {
-  margin-top: 16px;
-}
-
-.spotify-results {
-  margin-top: 8px;
-  max-height: 200px;
-  overflow-y: auto;
-  background: #333;
-  padding: 10px;
-  border-radius: 4px;
-}
-
-.spotify-result {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #444;
-  margin-bottom: 8px;
-  padding: 6px 10px;
-  border-radius: 4px;
-  color: white;
-}
-
-.spotify-result button {
-  background-color: #5ddcdc;
-  border: none;
-  color: black;
-  padding: 4px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
 
 
 .chat-send-btn:hover {
   background-color: #4cc1c1;
 }
+
+
+
+
+
+
+.chat-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Heading for login */
+.chat-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #cb075b;
+}
+
+/* Input field for entering name (and reused for messages) */
+.chat-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 2px solid #cb075b;
+  border-radius: 6px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.chat-input:focus {
+  border-color: #5ddcdc;
+}
+
+
+
+
+
+.user-select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  appearance: none; /* removes default arrow in some browsers */
+  margin: 10px;
+}
+
+.user-select:focus {
+  border-color: #5ddcdc; /* cyan highlight */
+  box-shadow: 0 0 0 2px rgba(93, 220, 220, 0.2);
+}
+
+.user-select option {
+  background-color: #fff;
+  color: #333;
+  font-size: 14px;
+}
+
+/* Optional: for Webkit to make the dropdown arrow look minimal */
+.user-select::-ms-expand {
+  display: none; /* for IE */
+}
+
 
 /* Responsive */
 @media (max-width: 600px) {
