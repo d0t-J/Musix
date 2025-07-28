@@ -1,0 +1,42 @@
+.playlist-generator {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  margin: 30px auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.playlist-generator h2 {
+  color: #ff4f85;
+  text-align: center;
+}
+
+.playlist-generator input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.playlist-generator button {
+  width: 100%;
+  padding: 10px;
+  background-color: #cb075b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.playlist-generator ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 20px;
+}
+
+.playlist-generator li {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}

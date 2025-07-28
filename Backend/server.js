@@ -1,15 +1,17 @@
-
-
-// combined  
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
 const axios = require('axios');
 const { Server } = require('socket.io');
-require('dotenv').config();
+// const playlistRoutes = require('./routes/playlist');          //playlistgenerator
+
+
 
 const app = express();
 const PORT = 3001;
+
+
 
 app.use(cors());
 app.use(express.json());
@@ -120,6 +122,10 @@ app.get('/search', async (req, res) => {
     res.status(500).send({ error: 'Search failed' });
   }
 });
+
+
+// ROUTES 
+// app.use('/api/playlist', playlistRoutes);                   //playlistgenerator
 
 /* ---------- START SERVER ---------- */
 server.listen(PORT, () => {
