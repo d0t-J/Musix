@@ -49,11 +49,8 @@ body {
 }
 
 .chat-container h2 {
+  color: #ff4f85;
   text-align: center;
-  margin-bottom: 24px;
-  color: #cb075b;
-  font-size: 28px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
 
 }
 
@@ -83,7 +80,7 @@ body {
   border-radius: 10px;
   margin-bottom: 16px;
   border: 1px solid #e2e2e2;
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+  /* box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); */
 }
 
 .chat-message {
